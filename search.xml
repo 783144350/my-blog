@@ -1,13 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2Fmy-blog%2F2019%2F09%2F06%2Ftest%2F</url>
-    <content type="text"></content>
+    <title>创建和销毁对象</title>
+    <url>/my-blog/2020/02/04/%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</url>
+    <content><![CDATA[<h2 id="用户静态方法代替构造器"><a href="#用户静态方法代替构造器" class="headerlink" title="用户静态方法代替构造器"></a>用户静态方法代替构造器</h2><h3 id="静态工厂方法"><a href="#静态工厂方法" class="headerlink" title="静态工厂方法"></a>静态工厂方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">valueOf</span><span class="params">(<span class="keyword">boolean</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> b ? Boolean.TRUE : Boolean.False;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对比普通构造器，有如下好处：</p>
+<ul>
+<li>有名称，便于阅读</li>
+<li>不必在每次调用它们的时候都创建一个新对象</li>
+<li>可以返回原返回类型的任何子类型的对象</li>
+<li>所返回的对象的类可以随着每次调用而发生变化，这取决于静态工厂方法的参数值</li>
+<li>方法返回的对象所属的类，在编写包含该静态工厂方法的类时可以不存在</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>类如果不含公有的或者受保护的构造器，就不能被子类化</li>
+</ul>
+<p>静态工厂方法 一些惯用名称：</p>
+<p><strong>from</strong></p>
+<p>类型转换方法，它只有单个参数，返回该类型的一个相对应的实例，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Date d = <span class="function">Date <span class="title">from</span><span class="params">(instance)</span> </span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>of</strong></p>
+<p>带有多个参数，返回该类型的一个实例，把它们合并起来，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Set&lt;Rank&gt; faceCards = EnumSet.of(JACK, QUEEN, KING);</span><br></pre></td></tr></table></figure>
+
+<p><strong>valueOf</strong></p>
+<p>比from和of更烦琐的种替代方法，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE);</span><br></pre></td></tr></table></figure>
+
+<p><strong>instance或者getInstance</strong></p>
+<p>返回的实例是通过方法的（如有）参数来描述的，但是不能说与参数具有同样的值，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">StackWalker luke = StackWalker.getInstance(options);</span><br></pre></td></tr></table></figure>
+
+<p><strong>create或者newIntance</strong></p>
+<p>像instance或者getInstance一样，但create或者newInstance能够确保每次调用都返回一个新的实例，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object newArray = Array.newInstance(classObject, arrayLen);</span><br></pre></td></tr></table></figure>
+
+<p><strong>getType</strong></p>
+<p>像getInstance一样，但是在工厂方法处于不同的类中的时候使用。Type表示工厂方法所返回的对象类型，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileStore fs = Files.getFileStore(path);</span><br></pre></td></tr></table></figure>
+
+<p><strong>newType</strong></p>
+<p>像newInstance一样，但是在工厂方法处于不同的类中的时候使用。Type表示工厂方法所返回的对象类型，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">BufferedReader br = Files.newBufferedReader(path);</span><br></pre></td></tr></table></figure>
+
+<p><strong>type</strong></p>
+<p>getType和newType的简版，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Complain&gt; litany = Collections.list(legacyLitany);</span><br></pre></td></tr></table></figure>
+
+<h2 id="遇到多个构造器参数时要考虑使用构造器"><a href="#遇到多个构造器参数时要考虑使用构造器" class="headerlink" title="遇到多个构造器参数时要考虑使用构造器"></a>遇到多个构造器参数时要考虑使用构造器</h2><p>一个不好的实践：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">NutritionFacts cocaCola = <span class="keyword">new</span> NutritionFacts(<span class="number">240</span>, <span class="number">8</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="number">35</span>, <span class="number">27</span>);</span><br></pre></td></tr></table></figure>
+
+<p>JavaBean模式的改进：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">NutritionFacts cocaCola = <span class="keyword">new</span> NutritionFacts();</span><br><span class="line">cocaCola.setServingSize(<span class="number">240</span>);</span><br><span class="line">cocaCola.setServings(<span class="number">8</span>);</span><br><span class="line">cocaCola.setCalories(<span class="number">100</span>);</span><br><span class="line">cocaCola.setSodium(<span class="number">35</span>);</span><br><span class="line">cocaCola.setCarbohydrate(<span class="number">27</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Builder模式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">NutritionFacts cocaCola = NutritionFacts.Builder(<span class="number">240</span>, <span class="number">8</span>)</span><br><span class="line">    .calories(<span class="number">100</span>)</span><br><span class="line">    .sodium(<span class="number">35</span>)</span><br><span class="line">    .carbohydrate(<span class="number">27</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+
+<p>如果类的构造器或者静态工厂中具有多个参数，设计这种类时，Builder模式就是一种不错的选择。</p>
+<h2 id="用私有构造器或者枚举类型强化Singleton属性"><a href="#用私有构造器或者枚举类型强化Singleton属性" class="headerlink" title="用私有构造器或者枚举类型强化Singleton属性"></a>用私有构造器或者枚举类型强化Singleton属性</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Elvis</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Elvis INSTANCE = <span class="keyword">new</span> Elvis();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Elvis</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>单元素枚举：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Elvis &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="通过私有构造器强化不可实例化的能力"><a href="#通过私有构造器强化不可实例化的能力" class="headerlink" title="通过私有构造器强化不可实例化的能力"></a>通过私有构造器强化不可实例化的能力</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UtilityClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">UtilityClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="优先考虑依赖注入来引用资源"><a href="#优先考虑依赖注入来引用资源" class="headerlink" title="优先考虑依赖注入来引用资源"></a>优先考虑依赖注入来引用资源</h2><p>有许多类会依赖一个或多个底层的资源。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpellChecker</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Lexicon dictionary;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SpellChecker</span><span class="params">(Lexicon dictionary)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.dictionary = Objects.requireNonNull(dictionary);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="避免创建不必要的对象"><a href="#避免创建不必要的对象" class="headerlink" title="避免创建不必要的对象"></a>避免创建不必要的对象</h2><p><strong>DON’T DO THIS!</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = <span class="keyword">new</span> String(<span class="string">"bikini"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>DO THIS</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = <span class="string">"bikini"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>对于所有在同一台虚拟机中运行的代码，只要它们包含相同的字符串字面常量，该对象就会被重用。</p>
+<p><strong>缓存“昂贵的对象”</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isRomanNumeral</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> s.matches(<span class="string">"^(?=.)M*(C[MD]|D?C&#123;0, 3&#125;)"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然String.matches方法最易于查看一个字符串是否与正则表达式相匹配，但并不适合在注重性能的情形中重复使用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RomanNumberals</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Pattern ROMAN = Pattern.compile(<span class="string">"^(?=.)M*(C[MD]|D?C&#123;0, 3&#125;)"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isRomanNumeral</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ROMAN.matcher(s).matches();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>要优先使用基本类型而不是装箱基本类型，要当心无意识的自动装箱</strong></p>
+<h2 id="消除过期的对象引用"><a href="#消除过期的对象引用" class="headerlink" title="消除过期的对象引用"></a>消除过期的对象引用</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object[] elements;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Stack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        elements = <span class="keyword">new</span> Object[DEFAULT_INITIAL_CAPACITY];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Object e)</span> </span>&#123;</span><br><span class="line">        ensureCapacity();</span><br><span class="line">        elements[size++] = e;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">        <span class="keyword">return</span> elements[--size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (elements.length == size) &#123;</span><br><span class="line">            elements = Arrays.copyOf(elements, <span class="number">2</span> * size + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>防止内存泄漏：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">    Object result = elements[--size];</span><br><span class="line">    elements[size] = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>只要类是自己管理内存，程序员就应该警惕内存泄漏问题</strong></p>
+<p>一旦元素被释放掉，则该元素中包含的任何对象引用都应该被清空。</p>
+<p><strong>内存泄漏的另一个常见来源是缓存</strong></p>
+<p>一旦你把对象引用放到缓存中，它就很容易被遗忘掉，从而使得它不再有用之后很长一段时间内仍然留在缓存中</p>
+<p><strong>内存泄漏的第三个常见来源是监听器和其他回调</strong></p>
+<h2 id="避免使用终结方法和清楚方法"><a href="#避免使用终结方法和清楚方法" class="headerlink" title="避免使用终结方法和清楚方法"></a>避免使用终结方法和清楚方法</h2><p>终结方法（finalizer）通常是不可预测的，也是很危险的，一般情况下是不必要的。</p>
+<p>在Java 9中清楚方法（cleaner）代替了终结方法。清楚方法没有终结方法那么危险，但仍然是不可预测、运行缓慢，一般情况下也是不必要的。</p>
+<p><strong>永远不应该依赖终结方法或者清楚方法来更新重要的持久状态</strong></p>
+<p>清除资源的正确做法：让类实现AutoCloseable，并要求客户端在每个实例不再需要的时候调用close方法，一般是利用try-with-resources确保终止，即使遇到异常也是如此。</p>
+<h2 id="try-with-resources优先于try-finally"><a href="#try-with-resources优先于try-finally" class="headerlink" title="try-with-resources优先于try-finally"></a>try-with-resources优先于try-finally</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copy</span><span class="params">(String src, String dst)</span> trows IOException </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (InputStream in = <span class="keyword">new</span> FileInputStream(src);</span><br><span class="line">        OutputStream out = <span class="keyword">new</span> FileOutputStream(dst)) &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">            <span class="keyword">int</span> n;</span><br><span class="line">            <span class="keyword">while</span> ((n = in.read(buf)) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">               out.write(buf, <span class="number">0</span>, n);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Java Effective读书笔记</category>
+      </categories>
   </entry>
   <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2Fmy-blog%2F2019%2F09%2F06%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+    <title>test</title>
+    <url>/my-blog/2019/09/06/test/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>SpringFramwork</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/my-blog/2019/09/06/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>SpringFramwork</category>
+      </categories>
+      <tags>
+        <tag>快速实践</tag>
+      </tags>
   </entry>
 </search>
