@@ -78,7 +78,7 @@
 <link href="/my-blog/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="读书笔记,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -94,15 +94,17 @@
 
 
 
-<meta name="keywords" content="读书笔记">
+<meta name="description" content="覆盖equals时请遵守通用约定可以不复写equals方法：  类的每个实列本质上都是唯一的 类没有必要提供“逻辑相等”（logical equality） 超类已经覆盖了equals,超类的行为对于这个类也是合适的。 类是私有的，或者是包级别私有的，可以确定它的equals方法永远不会被调用。  什么时候应该覆盖equals? 如果类具有自己特有的“逻辑相等”（logical equality）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="http://yuanfung.coding.me/my-blog/2019/09/06/test/index.html">
+<meta property="og:title" content="对于所有对象都通用的方法">
+<meta property="og:url" content="http://yuanfung.coding.me/my-blog/2020/02/06/对于所有对象都通用的方法/index.html">
 <meta property="og:site_name" content="Fung的技术博客">
+<meta property="og:description" content="覆盖equals时请遵守通用约定可以不复写equals方法：  类的每个实列本质上都是唯一的 类没有必要提供“逻辑相等”（logical equality） 超类已经覆盖了equals,超类的行为对于这个类也是合适的。 类是私有的，或者是包级别私有的，可以确定它的equals方法永远不会被调用。  什么时候应该覆盖equals? 如果类具有自己特有的“逻辑相等”（logical equality）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-03T16:12:01.582Z">
+<meta property="og:updated_time" content="2020-02-06T15:47:00.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test">
+<meta name="twitter:title" content="对于所有对象都通用的方法">
+<meta name="twitter:description" content="覆盖equals时请遵守通用约定可以不复写equals方法：  类的每个实列本质上都是唯一的 类没有必要提供“逻辑相等”（logical equality） 超类已经覆盖了equals,超类的行为对于这个类也是合适的。 类是私有的，或者是包级别私有的，可以确定它的equals方法永远不会被调用。  什么时候应该覆盖equals? 如果类具有自己特有的“逻辑相等”（logical equality）">
 
 
 
@@ -131,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yuanfung.coding.me/my-blog/2019/09/06/test/">
+  <link rel="canonical" href="http://yuanfung.coding.me/my-blog/2020/02/06/对于所有对象都通用的方法/">
 
 
 
 
 
-  <title>test | Fung的技术博客</title>
+  <title>对于所有对象都通用的方法 | Fung的技术博客</title>
   
 
 
@@ -292,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuanfung.coding.me/my-blog/my-blog/2019/09/06/test/">
+    <link itemprop="mainEntityOfPage" href="http://yuanfung.coding.me/my-blog/my-blog/2020/02/06/对于所有对象都通用的方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fung">
@@ -309,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">test</h1>
+          <h1 class="post-title" itemprop="name headline">对于所有对象都通用的方法</h1>
         
 
         <div class="post-meta">
@@ -321,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-06T23:20:40+08:00">
-                2019-09-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-06T23:46:01+08:00">
+                2020-02-06
               </time>
             
 
@@ -344,8 +346,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/my-blog/categories/SpringFramwork/" itemprop="url" rel="index">
-                    <span itemprop="name">SpringFramwork</span>
+                  <a href="/my-blog/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/my-blog/categories/Java/Java-Effective读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Effective读书笔记</span>
                   </a>
                 </span>
 
@@ -381,7 +394,74 @@
       
 
       
-        
+        <h2 id="覆盖equals时请遵守通用约定"><a href="#覆盖equals时请遵守通用约定" class="headerlink" title="覆盖equals时请遵守通用约定"></a>覆盖equals时请遵守通用约定</h2><p>可以不复写equals方法：</p>
+<ul>
+<li>类的每个实列本质上都是唯一的</li>
+<li>类没有必要提供“逻辑相等”（logical equality）</li>
+<li>超类已经覆盖了equals,超类的行为对于这个类也是合适的。</li>
+<li>类是私有的，或者是包级别私有的，可以确定它的equals方法永远不会被调用。</li>
+</ul>
+<p>什么时候应该覆盖equals?</p>
+<p>如果类具有自己特有的“逻辑相等”（logical equality）概念，而且超类还没有覆盖equals。这通常属于“值类”（value class）。</p>
+<p>在覆盖equals方法的时候，必须要遵守它的通用约定：</p>
+<ul>
+<li>自反性（reflexive）</li>
+<li>对称性（symmetric）</li>
+<li>传递性（transitive）</li>
+<li>一致性（consistent），多次调用会一致地返回true或false</li>
+<li>对于任何非null的应用值x，x.equals(null)必须返回false</li>
+</ul>
+<p>一些告诫：</p>
+<ul>
+<li>覆盖equals时总要覆盖hashCode</li>
+<li>不要企图让equals方法过于智能</li>
+<li>不要将equals声明中的Object对象替换为其他的类型</li>
+</ul>
+<p>总而言之，不要轻易覆盖equals方法，除非迫不得已。</p>
+<h2 id="覆盖equals时总要覆盖hashCode"><a href="#覆盖equals时总要覆盖hashCode" class="headerlink" title="覆盖equals时总要覆盖hashCode"></a>覆盖equals时总要覆盖hashCode</h2><p>如果不这样做的话，会导致该类无法结合所有基于散列的集合一起正常运作，这类集合包括HashMap和HashSet。</p>
+<p>hashCode的通用约定：</p>
+<ul>
+<li>在应用程序的执行期间，只要对象的equals方法的比较操作所用到的信息没有被修改，那么对同一个对象的多次调用，hashCode方法都必须始终返回同一个值。在一个应用程序与另一个程序的执行过程中，执行hashCode方法所返回的值可以不一致。</li>
+<li>如果两个对象根据equals(Object)方法比较是相等的，那么调用这两个对象中的hashCode方法都必须产生同样的整数结果。</li>
+<li>如果两个对象根据equals(Object)方法比较是相等的，那么调用这两个对象中的hashCode方法，则不一定要求hashCode方法必须产生不同的结果。但是程序员应该知道，给不相等的对象产生截然不同的整数结果，有可能提高散列表（hash table）的性能。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Set&lt;Person&gt; personSet = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    personSet.add(p1);</span><br><span class="line">    personSet.add(p2);</span><br><span class="line">    System.out.println(personSet.size());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object person)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> person <span class="keyword">instanceof</span> Person &amp;&amp; id == ((Person) person).getId();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.id;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="始终要覆盖toString"><a href="#始终要覆盖toString" class="headerlink" title="始终要覆盖toString"></a>始终要覆盖toString</h2><p>默认toString包含类的名称，以及一个“@”符号，接着是散列码的无符号十六进制表示法，例如PhoneNumber@163b91</p>
+<p>提供好的toString实现可以使类用起来更加舒服，使用了这个类的系统也更易于调试。</p>
+<h2 id="谨慎地覆盖clone"><a href="#谨慎地覆盖clone" class="headerlink" title="谨慎地覆盖clone"></a>谨慎地覆盖clone</h2><p><strong>Cloneable接口</strong></p>
+<p>它决定了Object中受保护的clone方法实现的行为：如果一个类实现了Cloneable，Object的clone方法就返回该对象的逐域拷贝，否则就会抛出CloneNotSupportedException异常。</p>
+<p>clone约定：</p>
+<ul>
+<li>x.clone() != x</li>
+<li>x.clone().getClass() == x.getClass()</li>
+<li>x.clone().equals(x)</li>
+</ul>
+<p>不可变的类永远都不应该提供clone方法</p>
+<p>实际上，clone方法就是另一个构造器；必须确保它不会伤害到原始的对象，并确保正确地创建被克隆对象中的约束条件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object[] elements;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Stack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        elements = <span class="keyword">new</span> Object[DEFAULT_INITIAL_CAPACITY];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Object e)</span> </span>&#123;</span><br><span class="line">        ensureCapacity();</span><br><span class="line">        elements[size++] = e;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">        Object result = elements[--size];</span><br><span class="line">        elements[size] = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (elements.length == size) &#123;</span><br><span class="line">            elements = Arrays.copyOf(elements, <span class="number">2</span> * size + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Stack <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Stack result = (Stack) <span class="keyword">super</span>.clone();</span><br><span class="line">        result.elements = elements.clone();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对象拷贝的更好的办法是提供一个拷贝器（copy constructor）或拷贝工厂（copy factory）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Yum</span><span class="params">(Yum yum)</span> </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Yum <span class="title">newInstance</span><span class="params">(Yum yum)</span> </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="考虑实现Comparable接口"><a href="#考虑实现Comparable接口" class="headerlink" title="考虑实现Comparable接口"></a>考虑实现Comparable接口</h2><p>一旦类实现了Comparable接口，它就可以跟许多泛型算法（generic algorithm）以及依赖于该接口的集合实现（collection implementation）进行写作。</p>
+<p>如果你正在编写一个值类，它具有非常明显的内在排序关系，比如按字母顺序、按数值顺序或者按年代顺序，那你就应该坚决考虑实现Comparable接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">publisc <span class="class"><span class="keyword">interface</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>compareTo方法的通用约定：</p>
+<p>在下面的说明中，符号sgn(expression)表示数学中的signum函数，它根据表达式（expression）的值为负值、零和正值，分别返回-1、0或1</p>
+<ul>
+<li>实现者必须确保所有的x和y都满足sgn(x.compareTo(y)) == -sgn(y.compareTo(x))</li>
+<li>实现者还必须确保这个比较关系是可传递的：(x.compareTo(y)&gt;0 &amp;&amp; y.compareTo(z)&gt;0)暗示着x.compareTo(z)&gt;0</li>
+<li>最后，实现者必须确保x.compareTo(y) == 0暗示着所有的z都满足sgn(x.compareTo(z)) == sgn(y.compareTo(z))</li>
+<li>强烈建议(x.compareTo(y) == 0) == (x.equals(y))</li>
+</ul>
+<p>违反了compareTo约定的类会破会其他依赖于比较关系的类，包括有序集合类TreeSet和TreeMap，以及工具类Collection和Arrays，它们内部包含有搜索和排序算法。</p>
+<p>使用Java 8中的比较构造器Comparator：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Comparator&lt;PhoneNumber&gt; COMPARATOR = comparingInt(pn -&gt; pn.areaCode)</span><br><span class="line">    .thenComparingInt(pn -&gt; pn.prefix)</span><br><span class="line">    .thenComparingInt(pn -&gt; pn.lineNum);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(PhoneNumber pn)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> COMPARATOR.compare(<span class="keyword">this</span>. pn);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总而言之，每当实现一个对排序敏感的类时，都应该让这个类实现Comparable接口，以便其实例可以轻松地被分类、搜索，以及用在基于比较的集合中。</p>
+
       
     </div>
     
@@ -396,12 +476,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/my-blog/tags/读书笔记/" rel="tag"># 读书笔记</a>
-          
-        </div>
-      
 
       
       
@@ -411,8 +485,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/my-blog/2019/09/06/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/my-blog/2020/02/06/SpringBoot启动过程/" rel="next" title="SpringBoot启动过程">
+                <i class="fa fa-chevron-left"></i> SpringBoot启动过程
               </a>
             
           </div>
@@ -420,10 +494,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/my-blog/2020/02/04/创建和销毁对象/" rel="prev" title="创建和销毁对象">
-                创建和销毁对象 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,8 +545,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/my-blog/images/avatar.gif" alt="fung">
           <p class="site-author-name" itemprop="name">fung</p>
@@ -536,6 +615,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#覆盖equals时请遵守通用约定"><span class="nav-number">1.</span> <span class="nav-text">覆盖equals时请遵守通用约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#覆盖equals时总要覆盖hashCode"><span class="nav-number">2.</span> <span class="nav-text">覆盖equals时总要覆盖hashCode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#始终要覆盖toString"><span class="nav-number">3.</span> <span class="nav-text">始终要覆盖toString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谨慎地覆盖clone"><span class="nav-number">4.</span> <span class="nav-text">谨慎地覆盖clone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#考虑实现Comparable接口"><span class="nav-number">5.</span> <span class="nav-text">考虑实现Comparable接口</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
